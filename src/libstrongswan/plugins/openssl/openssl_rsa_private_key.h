@@ -21,6 +21,8 @@
 #ifndef OPENSSL_RSA_PRIVATE_KEY_H_
 #define OPENSSL_RSA_PRIVATE_KEY_H_
 
+#include <openssl/evp.h>
+
 #include <credentials/builder.h>
 #include <credentials/keys/private_key.h>
 
@@ -60,6 +62,14 @@ openssl_rsa_private_key_t *openssl_rsa_private_key_gen(key_type_t type,
  */
 openssl_rsa_private_key_t *openssl_rsa_private_key_load(key_type_t type,
 														va_list args);
+
+/**
+ * Wrap an EVP_PKEY object of type EVP_PKEY_RSA
+ *
+ * @param key		EVP_PKEY_RSA key object (adopted)
+ * @return 			loaded key, NULL on failure
+ */
+private_key_t *openssl_rsa_private_key_create(EVP_PKEY *key);
 
 /**
  * Connect to a RSA private key on a smartcard.

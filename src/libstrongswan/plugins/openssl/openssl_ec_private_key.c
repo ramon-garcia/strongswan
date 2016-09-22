@@ -304,7 +304,26 @@ static private_openssl_ec_private_key_t *create_empty(void)
 	return this;
 }
 
-/**
+/*
+ * See header.
+ */
+private_key_t *openssl_ec_private_key_create(EVP_PKEY *key)
+{
+	private_openssl_ec_private_key_t *this;
+	EC_KEY *ec;
+
+	ec = EVP_PKEY_get1_EC_KEY(key);
+	EVP_PKEY_free(key);
+	if (!ec)
+	{
+		return NULL;
+	}
+	this = create_empty();
+	this->ec = ec;
+	return &this->public.key;
+}
+
+/*
  * See header.
  */
 openssl_ec_private_key_t *openssl_ec_private_key_gen(key_type_t type,
